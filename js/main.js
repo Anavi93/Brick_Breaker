@@ -45,5 +45,6 @@ function drawAll(){
 	colorRect(paddleX, canvas.height-PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, 'white');
 	
 	drawBricks();
-	colorText(score,395,50,'white');
+	colorText(score,650,50,'white');
+    colorText(lives,150,50,'red');
 }

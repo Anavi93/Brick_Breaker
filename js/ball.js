@@ -3,11 +3,18 @@ var ballSpeedX=5;
 var ballY=75;
 var ballSpeedY=7;
 var score=0;
+var lives=3;
 
 function ballReset(){
 	ballX=canvas.width/2;
 	ballY=canvas.height/2;
-	score=0;
+	if(lives==0)
+		gameReset();
+}
+
+function gameReset(){
+	lives=3;
+	brickReset();
 }
 
 function ballMove(){
@@ -26,8 +33,8 @@ function ballMove(){
 	}
 	
 	if(ballY>canvas.height){ //bottom
+		lives--;
 		ballReset();
-		brickReset();
 	}
 }
 
