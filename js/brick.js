@@ -6,6 +6,7 @@ const BRICK_ROWS=14;
 var brickGrid=new Array(BRICK_COLS*BRICK_ROWS);
 var bricksLeft=0;
 
+
 function brickReset(){
 	bricksLeft=0;
 	var i;

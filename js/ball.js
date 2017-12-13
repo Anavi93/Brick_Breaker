@@ -2,10 +2,12 @@ var ballX=75;
 var ballSpeedX=5;
 var ballY=75;
 var ballSpeedY=7;
+var score=0;
 
 function ballReset(){
 	ballX=canvas.width/2;
 	ballY=canvas.height/2;
+	score=0;
 }
 
 function ballMove(){
@@ -67,6 +69,7 @@ function ballBrickHandling(){
 		if(isBrickAtColRow(ballBrickCol, ballBrickRow)){
 			brickGrid[brickIndexUnderBall]=false;
 			bricksLeft--;
+			score+=100;
 			//console.log(bricksLeft);
 			
 			var prevBallX=ballX-ballSpeedX;
