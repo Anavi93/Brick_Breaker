@@ -4,8 +4,10 @@ var ballY=75;
 var ballSpeedY=7;
 var score=0;
 var lives=3;
+var isBallHeld=true;
 
 function ballReset(){
+	isBallHeld=true;
 	ballX=canvas.width/2;
 	ballY=canvas.height/2;
 	if(lives==0)
@@ -14,27 +16,34 @@ function ballReset(){
 
 function gameReset(){
 	lives=3;
+	score=0;
 	brickReset();
 }
 
 function ballMove(){
-	ballX+=ballSpeedX;
-	ballY+=ballSpeedY;
-	
-	if(ballX>canvas.width && ballSpeedX>0.0){ //right
-		ballSpeedX*=-1;
+	if(isBallHeld){
+		ballX=paddleX+20;
+		ballY=canvas.height-PADDLE_DIST_FROM_EDGE-PADDLE_THICKNESS-5;
 	}
-	if(ballX<0 && ballSpeedX<0.0){ //left
-		ballSpeedX*=-1;
-	}
+	else{
+		ballX+=ballSpeedX;
+		ballY+=ballSpeedY;
+		
+		if(ballX>canvas.width && ballSpeedX>0.0){ //right
+			ballSpeedX*=-1;
+		}
+		if(ballX<0 && ballSpeedX<0.0){ //left
+			ballSpeedX*=-1;
+		}
 
-	if(ballY<0 && ballSpeedY<0.0){ //top
-		ballSpeedY*=-1;
-	}
-	
-	if(ballY>canvas.height){ //bottom
-		lives--;
-		ballReset();
+		if(ballY<0 && ballSpeedY<0.0){ //top
+			ballSpeedY*=-1;
+		}
+		
+		if(ballY>canvas.height){ //bottom
+			lives--;
+			ballReset();
+		}
 	}
 }
 

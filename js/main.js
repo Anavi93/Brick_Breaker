@@ -3,6 +3,10 @@ var canvas, canvasContext;
 var mouseX=0;
 var mouseY=0 ;
 
+function mouseupHandler(evt){
+	isBallHeld=false;
+}
+
 function updateMousePos(evt){
 	var rect=canvas.getBoundingClientRect();
 	var root=document.documentElement;
@@ -26,6 +30,7 @@ window.onload=function(){
 	setInterval(updateAll, 1000/framesPerSecond);
 	
 	canvas.addEventListener('mousemove', updateMousePos);
+	canvas.addEventListener('mouseup', mouseupHandler);
 
 	brickReset();
 	ballReset();
