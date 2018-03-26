@@ -1,10 +1,12 @@
 var canvas, canvasContext;
 
 var mouseX=0;
-var mouseY=0 ;
+var mouseY=0;
 
 var showingStartMenu=true;
 var showingWinScreen=false;
+
+var endingScore=0;
 
 function mouseupHandler(evt){
 	if(showingStartMenu){
@@ -72,6 +74,10 @@ function drawAll(){
 		canvasContext.fillStyle='white';
 		canvasContext.fillText('Move paddle with mouse to hit ball and break all bricks',278,250);
 		canvasContext.fillText('Click to start new game',350,445);
+		if(endingScore>0){
+			canvasContext.fillText('Last score:',375,200);
+			canvasContext.fillText(endingScore,390,220);
+		}
 		return;
 	}
 	else{

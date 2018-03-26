@@ -15,7 +15,8 @@ function ballReset(){
 }
 
 function gameReset(){
-	showStartMenu=true;
+	showingStartMenu=true;
+	endingScore=score;
 	lives=3;
 	score=0;
 	brickReset();
