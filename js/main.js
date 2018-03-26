@@ -3,8 +3,16 @@ var canvas, canvasContext;
 var mouseX=0;
 var mouseY=0 ;
 
+var showingStartMenu=true;
+var showingWinScreen=false;
+
 function mouseupHandler(evt){
+	if(showingStartMenu){
+		showingStartMenu=false;
+		return;
+	}
 	isBallHeld=false;
+
 }
 
 function updateMousePos(evt){
@@ -49,6 +57,8 @@ function updateAll(){
 }
 
 function moveAll(){
+	if(showingStartMenu)
+		return;
 	ballMove();
 	ballBrickHandling();
 	ballPaddleHandling();	
@@ -56,6 +66,15 @@ function moveAll(){
 
 function drawAll(){
 	colorRect(0,0,canvas.width,canvas.height, 'black'); 
+	
+	if(showingStartMenu){
+		drawBitmap(startPic, 0,0);
+		canvasContext.fillStyle='white';
+		canvasContext.fillText('Move paddle with mouse to hit ball and break all bricks',278,250);
+		canvasContext.fillText('Click to start new game',350,445);
+		return;
+	}
+	else{
 	drawBitmap(backgroundPic,0,0);
 	//colorCircle(ballX,ballY,10,'white');
 	drawBitmapCentered(ballPic,ballX, ballY);
@@ -66,4 +85,5 @@ function drawAll(){
 	colorText(score,650,50,'white');
 	for(i=0; i<lives; i++)
 		drawBitmap(healthPic, 150+i*18,35);
+	}
 }

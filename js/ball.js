@@ -8,8 +8,6 @@ var isBallHeld=true;
 
 function ballReset(){
 	isBallHeld=true;
-	ballX=canvas.width/2;
-	ballY=canvas.height/2;
 	ballSpeedY=7;
 	ballSpeedX=5;
 	if(lives==0)
@@ -17,6 +15,7 @@ function ballReset(){
 }
 
 function gameReset(){
+	showStartMenu=true;
 	lives=3;
 	score=0;
 	brickReset();

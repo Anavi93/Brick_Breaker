@@ -3,6 +3,7 @@ var ballPic=document.createElement("img");
 var brickPic=document.createElement("img");
 var backgroundPic=document.createElement("img");
 var healthPic=document.createElement("img");
+var startPic=document.createElement("img");
 
 var brickPics=[];
 
@@ -36,7 +37,8 @@ function loadImages(){
 		{varName: brickPic, theFile: "Brick"},
 		{varName: ballPic, theFile: "Ball"},
 		{varName: backgroundPic, theFile: "Background"},
-		{varName: healthPic, theFile: "Heart"}
+		{varName: healthPic, theFile: "Heart"},
+		{varName: startPic, theFile: "Start"}
 		];
 	
 	picsToLoad=imageList.length;
