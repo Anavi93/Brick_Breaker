@@ -2,10 +2,11 @@ var playerPic=document.createElement("img");
 var ballPic=document.createElement("img");
 var brickPic=document.createElement("img");
 var backgroundPic=document.createElement("img");
+var healthPic=document.createElement("img");
 
 var brickPics=[];
 
-var picsToLoad=4;
+var picsToLoad=0;
 
 function countImagesAndLaunchIfReady(){
 	
@@ -34,7 +35,8 @@ function loadImages(){
 		{varName: playerPic, theFile: "Paddle"},
 		{varName: brickPic, theFile: "Brick"},
 		{varName: ballPic, theFile: "Ball"},
-		{varName: backgroundPic, theFile: "Background"}
+		{varName: backgroundPic, theFile: "Background"},
+		{varName: healthPic, theFile: "Heart"}
 		];
 	
 	picsToLoad=imageList.length;

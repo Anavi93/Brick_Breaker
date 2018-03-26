@@ -57,12 +57,13 @@ function moveAll(){
 function drawAll(){
 	colorRect(0,0,canvas.width,canvas.height, 'black'); 
 	drawBitmap(backgroundPic,0,0);
-	colorCircle(ballX,ballY,10,'white');
+	//colorCircle(ballX,ballY,10,'white');
 	drawBitmapCentered(ballPic,ballX, ballY);
 	
 	//colorRect(paddleX, canvas.height-PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, 'white');
 	drawBitmapCentered(playerPic, paddleX+PADDLE_WIDTH/2, canvas.height-PADDLE_DIST_FROM_EDGE+PADDLE_THICKNESS/2);	
 	drawBricks();
 	colorText(score,650,50,'white');
-    colorText(lives,150,50,'red');
+	for(i=0; i<lives; i++)
+		drawBitmap(healthPic, 150+i*18,35);
 }
