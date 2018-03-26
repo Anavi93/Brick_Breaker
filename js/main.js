@@ -26,6 +26,13 @@ window.onload=function(){
 	canvas=document.getElementById('gameCanvas');
 	canvasContext=canvas.getContext('2d');
 	
+	canvasContext.fillText("LOADING IMAGES", canvas.width/2, canvas.height/2);
+	
+	loadImages();
+	
+}
+
+function imageLoadingDoneSoStartGame(){
 	var framesPerSecond=30;
 	setInterval(updateAll, 1000/framesPerSecond);
 	
@@ -33,7 +40,12 @@ window.onload=function(){
 	canvas.addEventListener('mouseup', mouseupHandler);
 
 	brickReset();
-	ballReset();
+	ballReset();	
+}
+
+function updateAll(){ 
+	moveAll();
+	drawAll();
 }
 
 function moveAll(){
@@ -44,11 +56,12 @@ function moveAll(){
 
 function drawAll(){
 	colorRect(0,0,canvas.width,canvas.height, 'black'); 
-	
+	drawBitmap(backgroundPic,0,0);
 	colorCircle(ballX,ballY,10,'white');
+	drawBitmapCentered(ballPic,ballX, ballY);
 	
-	colorRect(paddleX, canvas.height-PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, 'white');
-	
+	//colorRect(paddleX, canvas.height-PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, 'white');
+	drawBitmapCentered(playerPic, paddleX+PADDLE_WIDTH/2, canvas.height-PADDLE_DIST_FROM_EDGE+PADDLE_THICKNESS/2);	
 	drawBricks();
 	colorText(score,650,50,'white');
     colorText(lives,150,50,'red');

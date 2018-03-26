@@ -19,12 +19,6 @@ function brickReset(){
 	}//end of for each brickGrid
 }//end of brickReset function
 
-function updateAll(){ 
-	moveAll();
-	drawAll();
-}
-
-
 
 function isBrickAtColRow(col,row){
 	if(col>=0 && col<BRICK_COLS &&
@@ -42,6 +36,7 @@ function drawBricks(){
 			var arrayIndex=rowColToArrayIndex(eachCol,eachRow);
 			if(brickGrid[arrayIndex]){
 				colorRect(BRICK_W*eachCol, BRICK_H*eachRow, BRICK_W-BRICK_GAP, BRICK_H-BRICK_GAP, 'blue');
+				drawBitmap(brickPic, BRICK_W*eachCol, BRICK_H*eachRow);
 			}//end of is this brick here
 		}//end of for each brick
 	}//end of for each row

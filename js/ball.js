@@ -10,6 +10,8 @@ function ballReset(){
 	isBallHeld=true;
 	ballX=canvas.width/2;
 	ballY=canvas.height/2;
+	ballSpeedY=7;
+	ballSpeedX=5;
 	if(lives==0)
 		gameReset();
 }
