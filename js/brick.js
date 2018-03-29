@@ -6,16 +6,47 @@ const BRICK_ROWS=14;
 var brickGrid=new Array(BRICK_COLS*BRICK_ROWS);
 var bricksLeft=0;
 
+var levelOne=[ 0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			   0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			   0, 0, 0, 0, 0, 0, 0, 0, 0, 0,
+			   1, 1, 4, 1, 1, 1, 1, 1, 1, 1,
+			   1, 1, 4, 1, 1, 1, 1, 1, 1, 1,
+			   1, 1, 4, 1, 1, 1, 1, 1, 1, 1,
+			   1, 1, 4, 1, 1, 1, 1, 1, 1, 1,
+			   1, 1, 4, 1, 1, 1, 1, 1, 1, 1,
+			   1, 1, 4, 1, 1, 1, 1, 1, 1, 1,
+			   1, 1, 4, 1, 1, 1, 1, 1, 1, 1,
+			   1, 1, 4, 1, 1, 1, 1, 1, 1, 1,
+			   1, 1, 4, 1, 1, 1, 1, 1, 1, 1,
+			   1, 1, 4, 1, 1, 1, 1, 1, 1, 1,
+			   1, 1, 1, 1, 1, 1, 1, 1, 1, 4];
 
-function brickReset(){
+var levelSmiley=[ 0, 0, 0, 1, 1, 1, 1, 0, 0, 0,
+				  0, 0, 1, 1, 1, 1, 1, 1, 0, 0,
+			      0, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+			      1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+			      1, 1, 1, 0, 1, 1, 0, 1, 1, 1,
+			      1, 1, 1, 0, 1, 1, 0, 1, 1, 1, 
+			      1, 1, 1, 1, 1, 1, 1, 1, 1, 1,
+			      1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 
+			      1, 0, 1, 1, 1, 1, 1, 1, 0, 1,
+			      1, 1, 0, 1, 1, 1, 1, 0, 1, 1, 
+			      1, 1, 1, 0, 0, 0, 0, 1, 1, 1,
+			      0, 1, 1, 1, 1, 1, 1, 1, 1, 0,
+                  0, 0, 1, 1, 1, 1, 1, 1, 0, 0,			   
+			      0, 0, 0, 1, 1, 1, 1, 0, 0, 0]; //smiley
+
+var brickGrid=[];	//current level		   
+
+var bricksLeft=0;
+
+function brickReset(level){
 	bricksLeft=0;
 	var i;
-	for(i=0; i<3*BRICK_COLS; i++){
-		brickGrid[i]=false;
-	}
-	for(; i<BRICK_ROWS*BRICK_COLS;i++){
-		brickGrid[i]=true;
-		bricksLeft++;
+	for(i=0; i<BRICK_ROWS*BRICK_COLS; i++){
+		brickGrid[i]=level[i];
+		if(level[i]!=0)
+			bricksLeft++;
 	}//end of for each brickGrid
 }//end of brickReset function
 

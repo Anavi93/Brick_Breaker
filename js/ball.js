@@ -16,16 +16,19 @@ var highestBrickHit=0;
 var newLifePoints=10000;
 
 function increaseSpeed(increase){
-	var normalX=ballSpeedX/Math.sqrt(ballSpeedX*ballSpeedX+ballSpeedY*ballSpeedY);
-	var normalY=ballSpeedY/Math.sqrt(ballSpeedX*ballSpeedX+ballSpeedY*ballSpeedY);
-	ballSpeedX=normalX*increase;
-	ballSpeedY=normalY*increase;
+	var currentVelocity=Math.sqrt(ballSpeedX*ballSpeedX+ballSpeedY*ballSpeedY)
+	var normalX=ballSpeedX/currentVelocity;
+	var normalY=ballSpeedY/currentVelocity;
+	ballSpeedX=normalX*(1+increase)*currentVelocity;
+	ballSpeedY=normalY*(1+increase)*currentVelocity;
 }
 
 function ballReset(){
 	isBallHeld=true;
 	ballHits=0;
 	highestBrickHit=0;
+	hitsSpeedIncrease=5;
+	timesSpeedIncrease=1;
 	ballSpeedY=STARTING_BALL_SPEED_Y;
 	ballSpeedX=STARTING_BALL_SPEED_X;
 	if(lives==0)
@@ -37,7 +40,7 @@ function gameReset(){
 	endingScore=score;
 	lives=3;
 	score=0;
-	brickReset();
+	brickReset(levelOne);
 }
 
 function ballMove(){
@@ -88,14 +91,10 @@ function ballPaddleHandling(){
 			if(ballHits==hitsSpeedIncrease){
 				timesSpeedIncrease++;
 				hitsSpeedIncrease+=5*timesSpeedIncrease;
-				increaseSpeed(8+3*timesSpeedIncrease);
+				increaseSpeed(0.20);
 				console.log(ballSpeedX);
 				console.log(ballSpeedY);
 			}//increasing speed
-			
-			if(bricksLeft==0){
-				brickReset();
-			}//out of bricks
 		}//ball center inside paddle
 }//end of ballPaddleHandling
 
@@ -115,6 +114,11 @@ function ballBrickHandling(){
 			brickGrid[brickIndexUnderBall]=false;
 			bricksLeft--;
 			score+=(BRICK_ROWS-ballBrickRow)*100;
+						
+			if(bricksLeft==0){
+				gameReset();
+			}//out of bricks
+			
 			if(score>=newLifePoints){
 				lives++;
 				newLifePoints*=3;
