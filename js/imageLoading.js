@@ -1,6 +1,8 @@
 var playerPic=document.createElement("img");
 var ballPic=document.createElement("img");
-var brickPic=document.createElement("img");
+//var brick1Pic=document.createElement("img");
+//var brick2Pic=document.createElement("img");
+//var brick3Pic=document.createElement("img");
 var backgroundPic=document.createElement("img");
 var healthPic=document.createElement("img");
 var startPic=document.createElement("img");
@@ -34,11 +36,16 @@ function loadImages(){
 	
 	var imageList=[
 		{varName: playerPic, theFile: "Paddle"},
-		{varName: brickPic, theFile: "Brick"},
 		{varName: ballPic, theFile: "Ball"},
 		{varName: backgroundPic, theFile: "Background"},
 		{varName: healthPic, theFile: "Heart"},
-		{varName: startPic, theFile: "Start"}
+		{varName: startPic, theFile: "Start"},
+		{brickType: BRICK1, theFile: "Brick1"},
+		{brickType: BRICK2, theFile: "Brick2"},
+		{brickType: BRICK3, theFile: "Brick3"},
+		{brickType: BRICK2_DAM, theFile: "Brick2D"},
+		{brickType: BRICK3_DAM1, theFile: "Brick3D"},
+		{brickType: BRICK3_DAM2, theFile: "Brick2D"},
 		];
 	
 	picsToLoad=imageList.length;

@@ -31,13 +31,14 @@ function ballReset(){
 	timesSpeedIncrease=1;
 	ballSpeedY=STARTING_BALL_SPEED_Y;
 	ballSpeedX=STARTING_BALL_SPEED_X;
-	if(lives==0)
+	if(lives==0 ||bricksLeft==0)
 		gameReset();
 }
 
 function gameReset(){
 	showingStartMenu=true;
 	endingScore=score;
+	newLifePoints=10000;
 	lives=3;
 	score=0;
 	brickReset(levelOne);
@@ -111,18 +112,40 @@ function ballBrickHandling(){
 	if(ballBrickCol>=0 && ballBrickCol<BRICK_COLS &&
 	   ballBrickRow>=0 && ballBrickRow<BRICK_ROWS){
 		if(isBrickAtColRow(ballBrickCol, ballBrickRow)){
-			brickGrid[brickIndexUnderBall]=false;
-			bricksLeft--;
+			switch(brickGrid[brickIndexUnderBall]){
+				case BRICK3:
+					brickGrid[brickIndexUnderBall]=BRICK3_DAM1;
+					break;
+				case BRICK3_DAM1:
+					brickGrid[brickIndexUnderBall]=BRICK3_DAM2;
+					break;
+				case BRICK3_DAM2:
+					brickGrid[brickIndexUnderBall]=0;
+					bricksLeft--;
+					break;
+				case BRICK2:
+					brickGrid[brickIndexUnderBall]=BRICK2_DAM;
+					break;
+				case BRICK2_DAM:
+					brickGrid[brickIndexUnderBall]=0;
+					bricksLeft--;
+					break;
+				case BRICK1:
+					brickGrid[brickIndexUnderBall]=0;
+					bricksLeft--;
+					break;
+					
+			}			
 			score+=(BRICK_ROWS-ballBrickRow)*100;
 						
 			if(bricksLeft==0){
-				gameReset();
+				ballReset();
 			}//out of bricks
 			
 			if(score>=newLifePoints){
 				lives++;
 				newLifePoints*=3;
-			}
+			} //adding new life
 			//console.log(bricksLeft);
 			
 			if((BRICK_ROWS-ballBrickRow)>highestBrickHit)
