@@ -1,3 +1,5 @@
+const STARTING_BALL_SPEED_X=5;
+const STARTING_BALL_SPEED_Y=7;
 var ballX=75;
 var ballSpeedX=5;
 var ballY=75;
@@ -6,10 +8,26 @@ var score=0;
 var lives=3;
 var isBallHeld=true;
 
+var ballHits=0;
+var timesSpeedIncrease=1;
+var hitsSpeedIncrease=5;
+var highestBrickHit=0;
+
+var newLifePoints=10000;
+
+function increaseSpeed(increase){
+	var normalX=ballSpeedX/Math.sqrt(ballSpeedX*ballSpeedX+ballSpeedY*ballSpeedY);
+	var normalY=ballSpeedY/Math.sqrt(ballSpeedX*ballSpeedX+ballSpeedY*ballSpeedY);
+	ballSpeedX=normalX*increase;
+	ballSpeedY=normalY*increase;
+}
+
 function ballReset(){
 	isBallHeld=true;
-	ballSpeedY=7;
-	ballSpeedX=5;
+	ballHits=0;
+	highestBrickHit=0;
+	ballSpeedY=STARTING_BALL_SPEED_Y;
+	ballSpeedX=STARTING_BALL_SPEED_X;
 	if(lives==0)
 		gameReset();
 }
@@ -60,11 +78,20 @@ function ballPaddleHandling(){
 		ballY<paddleBottomEdgeY && 
 		ballX>paddleLeftEdgeX && 
 		ballX<paddleRightEdgeX){
+			ballHits+=1;
 			ballSpeedY*=-1;
 			
 			var centerOfPaddleX=paddleX+PADDLE_WIDTH/2;
 			var ballDistFromPaddCenterX=ballX-centerOfPaddleX;
 			ballSpeedX=ballDistFromPaddCenterX*0.35;
+			
+			if(ballHits==hitsSpeedIncrease){
+				timesSpeedIncrease++;
+				hitsSpeedIncrease+=5*timesSpeedIncrease;
+				increaseSpeed(8+3*timesSpeedIncrease);
+				console.log(ballSpeedX);
+				console.log(ballSpeedY);
+			}//increasing speed
 			
 			if(bricksLeft==0){
 				brickReset();
@@ -87,8 +114,16 @@ function ballBrickHandling(){
 		if(isBrickAtColRow(ballBrickCol, ballBrickRow)){
 			brickGrid[brickIndexUnderBall]=false;
 			bricksLeft--;
-			score+=100;
+			score+=(BRICK_ROWS-ballBrickRow)*100;
+			if(score>=newLifePoints){
+				lives++;
+				newLifePoints*=3;
+			}
 			//console.log(bricksLeft);
+			
+			if((BRICK_ROWS-ballBrickRow)>highestBrickHit)
+				highestBrickHit=BRICK_ROWS-ballBrickRow;
+			//keeping track of highest hit brick since ball reset
 			
 			var prevBallX=ballX-ballSpeedX;
 			var prevBallY=ballY-ballSpeedY;
