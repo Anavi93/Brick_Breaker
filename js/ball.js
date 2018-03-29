@@ -11,9 +11,13 @@ var isBallHeld=true;
 var ballHits=0;
 var timesSpeedIncrease=1;
 var hitsSpeedIncrease=5;
-var highestBrickHit=0;
+var highestBrickHit=0; //keeping this in case I wan t to change speed of the ball
+//based on how high it landed
 
 var newLifePoints=10000;
+
+var modernPlay=true;
+var brickHit=false;
 
 function increaseSpeed(increase){
 	var currentVelocity=Math.sqrt(ballSpeedX*ballSpeedX+ballSpeedY*ballSpeedY)
@@ -84,6 +88,7 @@ function ballPaddleHandling(){
 		ballX<paddleRightEdgeX){
 			ballHits+=1;
 			ballSpeedY*=-1;
+			brickHit=false;
 			
 			var centerOfPaddleX=paddleX+PADDLE_WIDTH/2;
 			var ballDistFromPaddCenterX=ballX-centerOfPaddleX;
@@ -111,7 +116,8 @@ function ballBrickHandling(){
 
 	if(ballBrickCol>=0 && ballBrickCol<BRICK_COLS &&
 	   ballBrickRow>=0 && ballBrickRow<BRICK_ROWS){
-		if(isBrickAtColRow(ballBrickCol, ballBrickRow)){
+		if(isBrickAtColRow(ballBrickCol, ballBrickRow) && (modernPlay || !brickHit)){
+			brickHit=true;
 			switch(brickGrid[brickIndexUnderBall]){
 				case BRICK3:
 					brickGrid[brickIndexUnderBall]=BRICK3_DAM1;
@@ -135,7 +141,7 @@ function ballBrickHandling(){
 					bricksLeft--;
 					break;
 					
-			}			
+			}//detecting which brick is hit			
 			score+=(BRICK_ROWS-ballBrickRow)*100;
 						
 			if(bricksLeft==0){
@@ -159,15 +165,16 @@ function ballBrickHandling(){
 			
 			var bothTestsFailed=true;
 			
-			if(prevBrickCol !=ballBrickCol){
-				if(isBrickAtColRow(prevBrickCol, ballBrickRow)==false){
-					ballSpeedX *=-1;
-					bothTestsFailed=false;
-				}
-			}
 			if(prevBrickRow != ballBrickRow){
 				if(isBrickAtColRow(ballBrickCol, prevBrickRow)==false){
 					ballSpeedY *=-1;
+					bothTestsFailed=false;
+				}
+			}		
+			if(prevBrickCol !=ballBrickCol){
+				if(isBrickAtColRow(prevBrickCol, ballBrickRow)==false){
+					if(modernPlay)
+						ballSpeedX *=-1;
 					bothTestsFailed=false;
 				}
 			}
@@ -176,7 +183,6 @@ function ballBrickHandling(){
 				ballSpeedX *=-1;
 				ballSpeedY *=-1;
 			}
-			
 		} //end of brick found
 	} //end of valid col and row
 } //end of ballBrickHandling func
