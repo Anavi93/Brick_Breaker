@@ -1,5 +1,7 @@
 const STARTING_BALL_SPEED_X=5;
 const STARTING_BALL_SPEED_Y=7;
+const BALL_RADIUS=10;
+
 var ballX=75;
 var ballSpeedX=5;
 var ballY=75;
@@ -108,15 +110,54 @@ function rowColToArrayIndex(col,row){
 	return col + BRICK_COLS*row;
 } 
 
-function ballBrickHandling(){
+function isBrickHere(x,y){
+	var brickCol=Math.floor(x/BRICK_W);
+	var brickRow = Math.floor(y/BRICK_H);
+	if(isBrickAtColRow(brickCol, brickRow)){
+		return true;
+	}
+	else
+		return false;
+}
 
-	var ballBrickCol = Math.floor(ballX/BRICK_W);
-	var ballBrickRow = Math.floor(ballY/BRICK_H);
+function ballBrickHandling(){
+	var left=false; 
+	var right=false; 
+	var top=false; 
+	var bottom=false;
+	var ballBrickCol;
+	var ballBrickRow;
+	if(isBrickHere(ballX-BALL_RADIUS,ballY)){
+		console.log("USO levo!");
+		left=true;
+		ballBrickCol = Math.floor((ballX-BALL_RADIUS)/BRICK_W);
+		ballBrickRow = Math.floor(ballY/BRICK_H);
+	}
+	if(isBrickHere(ballX+BALL_RADIUS,ballY)){
+		console.log("USO desno!");
+		right=true;
+		ballBrickCol = Math.floor((ballX+BALL_RADIUS)/BRICK_W);
+		ballBrickRow = Math.floor(ballY/BRICK_H);
+	}
+	if(isBrickHere(ballX,ballY-BALL_RADIUS)){
+		console.log("USO gore!");
+		top=true;
+		ballBrickCol = Math.floor(ballX/BRICK_W);
+		ballBrickRow = Math.floor((ballY-BALL_RADIUS)/BRICK_H);
+	}
+	if(isBrickHere(ballX,ballY+BALL_RADIUS)){
+		console.log("USO dole!");
+		bottom=true;
+		ballBrickCol = Math.floor(ballX/BRICK_W);
+		ballBrickRow = Math.floor((ballY+BALL_RADIUS)/BRICK_H);
+	}
+	
 	var brickIndexUnderBall = rowColToArrayIndex(ballBrickCol, ballBrickRow);
 
 	if(ballBrickCol>=0 && ballBrickCol<BRICK_COLS &&
 	   ballBrickRow>=0 && ballBrickRow<BRICK_ROWS){
 		if(isBrickAtColRow(ballBrickCol, ballBrickRow) && (modernPlay || !brickHit)){
+			console.log("USO!");
 			brickHit=true;
 			switch(brickGrid[brickIndexUnderBall]){
 				case BRICK3:
@@ -158,31 +199,20 @@ function ballBrickHandling(){
 				highestBrickHit=BRICK_ROWS-ballBrickRow;
 			//keeping track of highest hit brick since ball reset
 			
-			var prevBallX=ballX-ballSpeedX;
-			var prevBallY=ballY-ballSpeedY;
-			var prevBrickCol=Math.floor(prevBallX/BRICK_W);
-			var prevBrickRow=Math.floor(prevBallY/BRICK_H);
-			
-			var bothTestsFailed=true;
-			
-			if(prevBrickRow != ballBrickRow){
-				if(isBrickAtColRow(ballBrickCol, prevBrickRow)==false){
-					ballSpeedY *=-1;
-					bothTestsFailed=false;
-				}
-			}		
-			if(prevBrickCol !=ballBrickCol){
-				if(isBrickAtColRow(prevBrickCol, ballBrickRow)==false){
-					if(modernPlay)
-						ballSpeedX *=-1;
-					bothTestsFailed=false;
-				}
+			if(modernPlay){
+				if(left==true && ballSpeedX<0)
+					ballSpeedX*=-1;
+				
+				if(right==true && ballSpeedX>0)
+					ballSpeedX*=-1;
 			}
+			if(top==true && ballSpeedY<0)
+				ballSpeedY*=-1;
 			
-			if(bothTestsFailed){ //armpit case 
-				ballSpeedX *=-1;
-				ballSpeedY *=-1;
-			}
+			if(bottom==true && ballSpeedY>0)
+				ballSpeedY*=-1;
+			//new collision checks and movement changes
+			
 		} //end of brick found
 	} //end of valid col and row
 } //end of ballBrickHandling func
