@@ -49,7 +49,7 @@ function imageLoadingDoneSoStartGame(){
 	canvas.addEventListener('mousemove', updateMousePos);
 	canvas.addEventListener('mouseup', mouseupHandler);
 
-	brickReset();
+	brickReset(levelOne);
 	ballReset();	
 }
 
@@ -88,8 +88,8 @@ function drawAll(){
 	//colorRect(paddleX, canvas.height-PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, 'white');
 	drawBitmapCentered(playerPic, paddleX+PADDLE_WIDTH/2, canvas.height-PADDLE_DIST_FROM_EDGE+PADDLE_THICKNESS/2);	
 	drawBricks();
-	colorText(score,650,50,'white');
+	colorText(score,700,50,'white');
 	for(i=0; i<lives; i++)
-		drawBitmap(healthPic, 150+i*18,35);
+		drawBitmap(healthPic, 50+i*18,35);
 	}
 }
