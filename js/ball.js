@@ -10,7 +10,7 @@ function ballClass(){
 
 	this.isBallHeld=false;
 
-	this.isInPlay=true;
+	this.isInPlay=false;
 
 	this.ballHits=0;
 	this.timesSpeedIncrease=1;
@@ -69,6 +69,7 @@ function ballClass(){
 				else{
 					this.isInPlay=false;
 					ballsLeft--;
+					console.log(ballsLeft);
 				}
 			}
 		}

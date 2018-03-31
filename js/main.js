@@ -18,7 +18,7 @@ function mouseupHandler(evt){
 		showingStartMenu=false;
 		return;
 	}
-	balls[1].isBallHeld=false;
+	balls[lastBall].isBallHeld=false;
 
 }
 
@@ -35,8 +35,9 @@ function keyReleased(evt){
 	}
 	if(evt.keyCode==KEY_3){
 		//multiball
-		is_multiball=1;
-		createMultiball();
+		if(!is_multiball){
+			createMultiball();
+		}
 		console.log("3");
 	}
 	if(evt.keyCode==KEY_4){
@@ -81,8 +82,7 @@ function imageLoadingDoneSoStartGame(){
 	document.addEventListener('keyup',keyReleased);
 
 	brickReset(levelOne);
-	balls[1]=new ballClass();
-	balls[1].ballReset();	
+	createBalls();	
 }
 
 function updateAll(){ 

@@ -9,9 +9,27 @@ var is_multiball=0;
 var is_sticky=0;
 var is_cannon=0;
 
-var ballsLeft=0;
-
+var ballsLeft=1;
+var lastBall=1;
 var newLifePoints=10000;
+
+function updatePowerups(){
+	if(is_fireball>0)
+		is_fireball--;
+	if(is_multiball>0)
+		updateMultiball();	
+	if(is_sticky>0)
+		is_sticky--;	
+	if(is_cannon>0)
+		is_cannon--;
+}
+
+function createBalls(){
+	balls[1]=new ballClass();
+	balls[2]=new ballClass();
+	balls[3]=new ballClass();
+	balls[1].ballReset();
+}
 
 function gameReset(){
 	showingStartMenu=true;
@@ -22,57 +40,51 @@ function gameReset(){
 	brickReset(levelOne);
 }
 
-function updatePowerups(){
-	if(is_fireball>0)
-		is_fireball--;
-	if(is_multiball>0)
-		if(ballsLeft==0){
-			is_multiball=0;
-			balls[1].ballReset();
-		}			
-	if(is_sticky>0)
-		is_sticky--;	
-	if(is_cannon>0)
-		is_cannon--;
+function updateMultiball(){
+	if(ballsLeft==1){
+		is_multiball=0;
+		console.log("Poslednja loptica!");
+		for(i=0; i<3; i++){
+			if(balls[i+1].isInPlay){
+				lastBall=i+1;
+			}
+		console.log(lastBall);
+		}
+	if(ballsLeft==0){
+		is_multiball=0;
+		ball[lastBall].restart();
+	}
+	}		
 }
 
 function createMultiball(){
+		is_multiball=1;
 		ballsLeft=3;
-		balls[2]=new ballClass();
-		balls[2].ballX=balls[1].ballX;
-		balls[2].ballY=balls[1].ballY;
-		balls[2].ballSpeedX=balls[1].ballSpeedX+3;
-		balls[2].ballSpeedY=balls[1].ballSpeedY;
-		balls[3]=new ballClass();
-		balls[3].ballX=balls[1].ballX;
-		balls[3].ballY=balls[1].ballY;
-		balls[3].ballSpeedX=-balls[1].ballSpeedX-3;
-		balls[3].ballSpeedY=balls[1].ballSpeedY;
+		var i;
+		for(i=1; i<4; i++){
+			if(i!=lastBall){
+				balls[i].ballX=balls[lastBall].ballX;
+				balls[i].ballY=balls[lastBall].ballY;
+				balls[i].isInPlay=true;
+				balls[i].ballSpeedX=-balls[lastBall].ballSpeedX-3*i;
+				balls[i].ballSpeedY=balls[lastBall].ballSpeedY;
+			}
+		}
 }
 
 function moveBalls(){
-	balls[1].ballMove();
-	balls[1].ballBrickHandling();
-	balls[1].ballPaddleHandling();
-	if(is_multiball){
-		if(balls[2].isInPlay){
-			balls[2].ballMove();
-			balls[2].ballBrickHandling();
-			balls[2].ballPaddleHandling();
+	for(var i=0; i<3; i++)
+		if(balls[i+1].isInPlay){
+			balls[i+1].ballMove();
+			balls[i+1].ballBrickHandling();
+			balls[i+1].ballPaddleHandling();
 		}
-		if(balls[3].isInPlay){
-			balls[3].ballMove();
-			balls[3].ballBrickHandling();
-			balls[3].ballPaddleHandling();
-		}
-	}
+
 }
 
 function drawBalls(){
 	balls[1].drawBall();
-	if(is_multiball){
-		balls[2].drawBall();
-		balls[3].drawBall();
-	}
-		
+	balls[2].drawBall();
+	balls[3].drawBall();
 }
+		
