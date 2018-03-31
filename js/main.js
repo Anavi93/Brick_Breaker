@@ -25,7 +25,7 @@ function mouseupHandler(evt){
 function keyReleased(evt){
 	if(evt.keyCode==KEY_1){
 		//fireball
-		is_fireball=600;
+		is_fireball+=600;
 		console.log("1");
 	}
 	if(evt.keyCode==KEY_2){
@@ -42,7 +42,7 @@ function keyReleased(evt){
 	}
 	if(evt.keyCode==KEY_4){
 		//sticky ball
-		is_sticky=600;
+		is_sticky+=600;
 		console.log("4");
 	}
 	

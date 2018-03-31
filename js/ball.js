@@ -2,6 +2,8 @@ const STARTING_BALL_SPEED_X=5;
 const STARTING_BALL_SPEED_Y=7;
 const BALL_RADIUS=10;
 
+const NUM_POS_TO_SAVE=7;
+
 function ballClass(){
 	this.ballX=75;
 	this.ballSpeedX=5;
@@ -9,8 +11,12 @@ function ballClass(){
 	this.ballSpeedY=7;
 
 	this.isBallHeld=false;
+	this.distOnPaddle=0;
 
 	this.isInPlay=false;
+	
+	this.savedX=[];
+	this.savedY=[];
 
 	this.ballHits=0;
 	this.timesSpeedIncrease=1;
@@ -27,23 +33,48 @@ function ballClass(){
 		this.ballSpeedX=normalX*(1+increase)*currentVelocity;
 		this.ballSpeedY=normalY*(1+increase)*currentVelocity;
 	}
+	
+	this.setBall=function(x,y,speedX,speedY){
+		this.isInPlay=true;
+		this.ballX=x;
+		this.ballY=y;
+		this.ballSpeedX=speedX;
+		this.ballSpeedY=speedY;
+		for(var i=0; i<NUM_POS_TO_SAVE;i++){
+			this.savedX[i]=this.ballX;
+			this.savedY[i]=this.ballY;
+		}
+		
+	}
 
 	this.ballReset=function(){
+		is_fireball=0;
+		is_sticky=0;
+		is_cannon=0;
+		
 		this.isBallHeld=true;
+		this.distFromPaddle=20;
 		this.isInPlay=true;
 		this.ballHits=0;
 		this.highestBrickHit=0;
 		this.hitsSpeedIncrease=5;
 		this.timesSpeedIncrease=1;
+		this.ballX=paddleX+this.distFromPaddle;
+		this.ballY=canvas.height-PADDLE_DIST_FROM_EDGE-PADDLE_THICKNESS-5;
 		this.ballSpeedY=STARTING_BALL_SPEED_Y;
 		this.ballSpeedX=STARTING_BALL_SPEED_X;
+		
+		for(var i=0; i<NUM_POS_TO_SAVE;i++){
+			this.savedX[i]=this.ballX;
+			this.savedY[i]=this.ballY;
+		}
 		if(lives==0 || bricksLeft==0)
 			gameReset();
 	}
 
 	this.ballMove=function(){
 		if(this.isBallHeld){
-			this.ballX=paddleX+20;
+			this.ballX=paddleX+this.distFromPaddle;
 			this.ballY=canvas.height-PADDLE_DIST_FROM_EDGE-PADDLE_THICKNESS-5;
 		}
 		else{
@@ -72,6 +103,12 @@ function ballClass(){
 					console.log(ballsLeft);
 				}
 			}
+			for(var i=NUM_POS_TO_SAVE-1; i>0; i--){
+				this.savedX[i]=this.savedX[i-1];
+				this.savedY[i]=this.savedY[i-1];		
+			}
+			this.savedX[0]=this.ballX;
+			this.savedY[0]=this.ballY;
 		}
 	}
 
@@ -82,10 +119,14 @@ function ballClass(){
 		var paddleLeftEdgeX=paddleX;
 		var paddleRightEdgeX=paddleLeftEdgeX+ PADDLE_WIDTH;
 		
-		if(	this.ballY> paddleTopEdgeY && 
+		if(	this.ballY+BALL_RADIUS> paddleTopEdgeY && 
 			this.ballY<paddleBottomEdgeY && 
 			this.ballX>paddleLeftEdgeX && 
 			this.ballX<paddleRightEdgeX){
+				if(is_sticky){
+					this.isBallHeld=true;
+					this.distFromPaddle=this.ballX-paddleLeftEdgeX;
+				}
 				this.ballHits+=1;
 				this.ballSpeedY*=-1;
 				this.brickHit=false;
@@ -183,28 +224,37 @@ function ballClass(){
 				if((BRICK_ROWS-ballBrickRow)>this.highestBrickHit)
 					this.highestBrickHit=BRICK_ROWS-ballBrickRow;
 				//keeping track of highest hit brick since ball reset
-				
-				if(modernPlay){
-					if(left==true && this.ballSpeedX<0)
-						this.ballSpeedX*=-1;
+				if(!is_fireball){
+					if(modernPlay){
+						if(left==true && this.ballSpeedX<0)
+							this.ballSpeedX*=-1;
+						
+						if(right==true && this.ballSpeedX>0)
+							this.ballSpeedX*=-1;
+					}
+					if(top==true && this.ballSpeedY<0)
+						this.ballSpeedY*=-1;
 					
-					if(right==true && this.ballSpeedX>0)
-						this.ballSpeedX*=-1;
+					if(bottom==true && this.ballSpeedY>0)
+						this.ballSpeedY*=-1;
+					//new collision checks and movement changes
 				}
-				if(top==true && this.ballSpeedY<0)
-					this.ballSpeedY*=-1;
-				
-				if(bottom==true && this.ballSpeedY>0)
-					this.ballSpeedY*=-1;
-				//new collision checks and movement changes
-				
 			} //end of brick found
 		} //end of valid col and row
 	} //end of ballBrickHandling func
 	
 	this.drawBall=function(){
-		if(this.isInPlay)
+		if(!is_fireball && !is_sticky)
 			drawBitmapCentered(ballPic,this.ballX, this.ballY);
+		if(is_fireball){
+			drawBitmapCentered(fireBallPic,this.ballX, this.ballY);
+			for(var i=0; i<NUM_POS_TO_SAVE; i++){
+				var op=1.0-(i+3)/10.0;
+				colorCircleTransparent(this.savedX[i],this.savedY[i],8-i,'255,255,255',op);
+			}
+		}
+		if(is_sticky)
+			drawBitmapCentered(stickyBallPic,this.ballX, this.ballY);
 	}
 
 }//end of ball class

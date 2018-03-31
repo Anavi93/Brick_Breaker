@@ -1,8 +1,7 @@
 var playerPic=document.createElement("img");
 var ballPic=document.createElement("img");
-//var brick1Pic=document.createElement("img");
-//var brick2Pic=document.createElement("img");
-//var brick3Pic=document.createElement("img");
+var fireBallPic=document.createElement("img");
+var stickyBallPic=document.createElement("img");
 var backgroundPic=document.createElement("img");
 var healthPic=document.createElement("img");
 var startPic=document.createElement("img");
@@ -37,6 +36,8 @@ function loadImages(){
 	var imageList=[
 		{varName: playerPic, theFile: "Paddle"},
 		{varName: ballPic, theFile: "Ball"},
+		{varName: fireBallPic, theFile: "Fireball"},
+		{varName: stickyBallPic, theFile: "Stickyball"},
 		{varName: backgroundPic, theFile: "Background"},
 		{varName: healthPic, theFile: "Heart"},
 		{varName: startPic, theFile: "Start"},

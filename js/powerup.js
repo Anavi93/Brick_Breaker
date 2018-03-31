@@ -63,11 +63,7 @@ function createMultiball(){
 		var i;
 		for(i=1; i<4; i++){
 			if(i!=lastBall){
-				balls[i].ballX=balls[lastBall].ballX;
-				balls[i].ballY=balls[lastBall].ballY;
-				balls[i].isInPlay=true;
-				balls[i].ballSpeedX=-balls[lastBall].ballSpeedX-3*i;
-				balls[i].ballSpeedY=balls[lastBall].ballSpeedY;
+				balls[i].setBall(balls[lastBall].ballX,balls[lastBall].ballY,-balls[lastBall].ballSpeedX-3*i,balls[lastBall].ballSpeedY);
 			}
 		}
 }
@@ -83,8 +79,8 @@ function moveBalls(){
 }
 
 function drawBalls(){
-	balls[1].drawBall();
-	balls[2].drawBall();
-	balls[3].drawBall();
+	for(var i=0; i<3; i++)
+		if(balls[i+1].isInPlay)
+			balls[i+1].drawBall();
 }
 		
