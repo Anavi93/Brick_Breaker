@@ -4,6 +4,7 @@ const KEY_1=49;
 const KEY_2=50;
 const KEY_3=51;
 const KEY_4=52;
+const KEY_5=53;
 
 var mouseX=0;
 var mouseY=0;
@@ -30,9 +31,9 @@ function keyReleased(evt){
 		is_fireball+=600;
 		console.log("1");
 	}
-	if(evt.keyCode==KEY_2){
+	if(evt.keyCode==KEY_4){
 		//cannon
-		is_cannon=600;
+		is_cannon+=600;
 		console.log("2");
 	}
 	if(evt.keyCode==KEY_3){
@@ -42,10 +43,15 @@ function keyReleased(evt){
 		}
 		console.log("3");
 	}
-	if(evt.keyCode==KEY_4){
+	if(evt.keyCode==KEY_2){
 		//sticky ball
 		is_sticky+=600;
 		console.log("4");
+	}
+	if(evt.keyCode==KEY_5){
+		//points
+		is_points=1;
+		console.log("5");
 	}
 	
 }
@@ -123,6 +129,7 @@ function drawAll(){
 		drawBitmapCentered(cannonPic, paddleX+PADDLE_WIDTH/2, canvas.height-PADDLE_DIST_FROM_EDGE+PADDLE_THICKNESS/2);
 	drawBricks();
 	drawBalls();
+	drawPowerups();
 	colorText(score,700,50,'white');
 	for(i=0; i<lives; i++)
 		drawBitmap(healthPic, 50+i*18,35);

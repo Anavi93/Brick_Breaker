@@ -48,6 +48,9 @@ function bulletClass(){
 			}
 			score+=(BRICK_ROWS-brickRow)*100;
 			this.isAlive=false;
+			if(bricksLeft==0){
+					balls[lastBall].ballReset();
+			}
 		}
 
 	}

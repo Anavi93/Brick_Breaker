@@ -7,8 +7,14 @@ var bulletPic=document.createElement("img");
 var backgroundPic=document.createElement("img");
 var healthPic=document.createElement("img");
 var startPic=document.createElement("img");
+var powerFirePic=document.createElement("img");
+var powerStickyPic=document.createElement("img");
+var powerMultiPic=document.createElement("img");
+var powerCannonPic=document.createElement("img");
+var powerPointPic=document.createElement("img");
 
 var brickPics=[];
+
 
 var picsToLoad=0;
 
@@ -33,6 +39,7 @@ function loadImageForBrickCode(brickCode, fileName){
 	beginLoadingImage(brickPics[brickCode],fileName);
 }
 
+
 function loadImages(){
 	
 	var imageList=[
@@ -45,6 +52,11 @@ function loadImages(){
 		{varName: backgroundPic, theFile: "Background"},
 		{varName: healthPic, theFile: "Heart"},
 		{varName: startPic, theFile: "Start"},
+		{varName: powerFirePic, theFile: "Fire"},
+		{varName: powerStickyPic, theFile: "Sticky"},
+		{varName: powerMultiPic, theFile: "Multi"},
+		{varName: powerCannonPic, theFile: "Cannon"},
+		{varName: powerPointPic, theFile: "Points"},
 		{brickType: BRICK1, theFile: "Brick1"},
 		{brickType: BRICK2, theFile: "Brick2"},
 		{brickType: BRICK3, theFile: "Brick3"},

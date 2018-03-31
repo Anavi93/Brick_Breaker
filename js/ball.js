@@ -193,19 +193,16 @@ function ballClass(){
 						brickGrid[brickIndexUnderBall]=BRICK3_DAM2;
 						break;
 					case BRICK3_DAM2:
-						brickGrid[brickIndexUnderBall]=0;
-						bricksLeft--;
+						removeBrick(brickIndexUnderBall,this.ballX, this.ballY);
 						break;
 					case BRICK2:
 						brickGrid[brickIndexUnderBall]=BRICK2_DAM;
 						break;
 					case BRICK2_DAM:
-						brickGrid[brickIndexUnderBall]=0;
-						bricksLeft--;
+						removeBrick(brickIndexUnderBall,this.ballX, this.ballY);
 						break;
 					case BRICK1:
-						brickGrid[brickIndexUnderBall]=0;
-						bricksLeft--;
+						removeBrick(brickIndexUnderBall,this.ballX, this.ballY);
 						break;
 						
 				}//detecting which brick is hit			
