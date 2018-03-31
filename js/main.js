@@ -18,6 +18,8 @@ function mouseupHandler(evt){
 		showingStartMenu=false;
 		return;
 	}
+	if(is_cannon)
+		createBullets();
 	balls[lastBall].isBallHeld=false;
 
 }
@@ -115,7 +117,10 @@ function drawAll(){
 	drawBitmap(backgroundPic,0,0);
 	
 	//colorRect(paddleX, canvas.height-PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, 'white');
-	drawBitmapCentered(playerPic, paddleX+PADDLE_WIDTH/2, canvas.height-PADDLE_DIST_FROM_EDGE+PADDLE_THICKNESS/2);	
+	if(!is_cannon)
+		drawBitmapCentered(playerPic, paddleX+PADDLE_WIDTH/2, canvas.height-PADDLE_DIST_FROM_EDGE+PADDLE_THICKNESS/2);
+	else
+		drawBitmapCentered(cannonPic, paddleX+PADDLE_WIDTH/2, canvas.height-PADDLE_DIST_FROM_EDGE+PADDLE_THICKNESS/2);
 	drawBricks();
 	drawBalls();
 	colorText(score,700,50,'white');

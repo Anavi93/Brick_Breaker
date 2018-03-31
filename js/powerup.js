@@ -3,6 +3,7 @@ var score=0;
 var lives=3;
 
 var balls=[];
+var bullets=[];
 
 var is_fireball=0;
 var is_multiball=0;
@@ -20,8 +21,12 @@ function updatePowerups(){
 		updateMultiball();	
 	if(is_sticky>0)
 		is_sticky--;	
-	if(is_cannon>0)
+	if(is_cannon>0){
 		is_cannon--;
+		clearBullets();
+		moveBullets();
+		drawBullets();
+	}
 }
 
 function createBalls(){
@@ -29,6 +34,35 @@ function createBalls(){
 	balls[2]=new ballClass();
 	balls[3]=new ballClass();
 	balls[1].ballReset();
+}
+
+function createBullets(){
+	var bullet1=new bulletClass();
+	bullet1.createNew(paddleX+5, canvas.height-PADDLE_DIST_FROM_EDGE-PADDLE_THICKNESS-5);
+	var bullet2=new bulletClass();
+	bullet2.createNew(paddleX+PADDLE_WIDTH-5, canvas.height-PADDLE_DIST_FROM_EDGE-PADDLE_THICKNESS-5);
+	bullets.push(bullet1);
+	bullets.push(bullet2);
+}
+
+function clearBullets(){
+	for(var i=0; i<bullets.length; i++)
+		if(!bullets[i].isAlive)
+			bullets.splice(i,1);
+}
+
+function moveBullets(){
+	for(var i=0; i<bullets.length; i++){
+		if(bullets[i].isAlive)
+			bullets[i].moveBullet();
+	}
+}
+
+function drawBullets(){
+	for(var i=0; i<bullets.length; i++){
+		if(bullets[i].isAlive)
+			bullets[i].drawBullet();
+	}
 }
 
 function gameReset(){

@@ -1,7 +1,9 @@
 var playerPic=document.createElement("img");
+var cannonPic=document.createElement("img");
 var ballPic=document.createElement("img");
 var fireBallPic=document.createElement("img");
 var stickyBallPic=document.createElement("img");
+var bulletPic=document.createElement("img");
 var backgroundPic=document.createElement("img");
 var healthPic=document.createElement("img");
 var startPic=document.createElement("img");
@@ -35,9 +37,11 @@ function loadImages(){
 	
 	var imageList=[
 		{varName: playerPic, theFile: "Paddle"},
+		{varName: cannonPic, theFile: "CannonPaddle"},
 		{varName: ballPic, theFile: "Ball"},
 		{varName: fireBallPic, theFile: "Fireball"},
 		{varName: stickyBallPic, theFile: "Stickyball"},
+		{varName: bulletPic, theFile: "bullet"},			
 		{varName: backgroundPic, theFile: "Background"},
 		{varName: healthPic, theFile: "Heart"},
 		{varName: startPic, theFile: "Start"},
