@@ -1,5 +1,11 @@
 var canvas, canvasContext;
 
+const KEY_1=49;
+const KEY_2=50;
+const KEY_3=51;
+const KEY_4=52;
+const KEY_5=53;
+
 var mouseX=0;
 var mouseY=0;
 
@@ -13,8 +19,41 @@ function mouseupHandler(evt){
 		showingStartMenu=false;
 		return;
 	}
-	isBallHeld=false;
+	if(is_cannon)
+		createBullets();
+	balls[lastBall].isBallHeld=false;
 
+}
+
+function keyReleased(evt){
+	if(evt.keyCode==KEY_1){
+		//fireball
+		is_fireball+=600;
+		console.log("1");
+	}
+	if(evt.keyCode==KEY_4){
+		//cannon
+		is_cannon+=600;
+		console.log("2");
+	}
+	if(evt.keyCode==KEY_3){
+		//multiball
+		if(!is_multiball){
+			createMultiball();
+		}
+		console.log("3");
+	}
+	if(evt.keyCode==KEY_2){
+		//sticky ball
+		is_sticky+=600;
+		console.log("4");
+	}
+	if(evt.keyCode==KEY_5){
+		//points
+		is_points=1;
+		console.log("5");
+	}
+	
 }
 
 function updateMousePos(evt){
@@ -48,22 +87,22 @@ function imageLoadingDoneSoStartGame(){
 	
 	canvas.addEventListener('mousemove', updateMousePos);
 	canvas.addEventListener('mouseup', mouseupHandler);
+	document.addEventListener('keyup',keyReleased);
 
 	brickReset(levelOne);
-	ballReset();	
+	createBalls();	
 }
 
 function updateAll(){ 
 	moveAll();
 	drawAll();
+	updatePowerups();
 }
 
 function moveAll(){
 	if(showingStartMenu)
 		return;
-	ballMove();
-	ballBrickHandling();
-	ballPaddleHandling();	
+	moveBalls();
 }
 
 function drawAll(){
@@ -82,12 +121,15 @@ function drawAll(){
 	}
 	else{
 	drawBitmap(backgroundPic,0,0);
-	//colorCircle(ballX,ballY,10,'white');
-	drawBitmapCentered(ballPic,ballX, ballY);
 	
 	//colorRect(paddleX, canvas.height-PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, 'white');
-	drawBitmapCentered(playerPic, paddleX+PADDLE_WIDTH/2, canvas.height-PADDLE_DIST_FROM_EDGE+PADDLE_THICKNESS/2);	
+	if(!is_cannon)
+		drawBitmapCentered(playerPic, paddleX+PADDLE_WIDTH/2, canvas.height-PADDLE_DIST_FROM_EDGE+PADDLE_THICKNESS/2);
+	else
+		drawBitmapCentered(cannonPic, paddleX+PADDLE_WIDTH/2, canvas.height-PADDLE_DIST_FROM_EDGE+PADDLE_THICKNESS/2);
 	drawBricks();
+	drawBalls();
+	drawPowerups();
 	colorText(score,700,50,'white');
 	for(i=0; i<lives; i++)
 		drawBitmap(healthPic, 50+i*18,35);

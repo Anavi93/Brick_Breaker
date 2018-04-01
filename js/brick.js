@@ -71,6 +71,30 @@ function isBrickAtColRow(col,row){
 		}
 }
 
+function isBrickHere(x,y){
+		var brickCol=Math.floor(x/BRICK_W);
+		var brickRow = Math.floor(y/BRICK_H);
+		if(isBrickAtColRow(brickCol, brickRow)){
+			return true;
+		}
+		else
+			return false;
+	}
+
+function rowColToArrayIndex(col,row){
+	return col + BRICK_COLS*row;
+} 
+
+function removeBrick(index,x,y,){
+	brickGrid[index]=0;
+	if(Math.floor((Math.random()*10)+1)==8){
+		var power=new powerupClass();
+		power.createNew(x, y, Math.floor((Math.random()*5)+1));
+		powerups.push(power);
+	}
+	bricksLeft--;
+}
+
 function drawBricks(){
 	for(var eachRow=0; eachRow<BRICK_ROWS; eachRow++){
 		for(var eachCol=0; eachCol<BRICK_COLS; eachCol++){
