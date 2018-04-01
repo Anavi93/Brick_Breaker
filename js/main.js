@@ -19,9 +19,14 @@ function mouseupHandler(evt){
 		showingStartMenu=false;
 		return;
 	}
+	if(showingWinScreen){
+		showingWinScreen=false;
+		return;
+	}
 	if(is_cannon)
 		createBullets();
-	balls[lastBall].isBallHeld=false;
+	for(var i=0; i<3; i++)
+		balls[i+1].isBallHeld=false;
 
 }
 
@@ -118,6 +123,13 @@ function drawAll(){
 			canvasContext.fillText(endingScore,390,220);
 		}
 		return;
+	}
+	else if(showingWinScreen){
+		drawBitmap(winPic,0,0);
+		canvasContext.fillStyle='White';
+		canvasContext.fillText('Good job, you have won!',320,250);
+		canvasContext.fillText('Click to start new game',350,480);
+		
 	}
 	else{
 	drawBitmap(backgroundPic,0,0);
