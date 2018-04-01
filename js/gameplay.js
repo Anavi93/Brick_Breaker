@@ -100,6 +100,14 @@ function gameReset(){
 	brickReset(levelOne);
 }
 
+function nextLevel(){
+	endingScore=score;
+	newLifePoints=10000;
+	lives=3;
+	score=0;
+	brickReset(levelTwo);
+}
+
 function updateMultiball(){
 	if(ballsLeft==1){
 		is_multiball=0;
@@ -108,12 +116,12 @@ function updateMultiball(){
 			if(balls[i+1].isInPlay){
 				lastBall=i+1;
 			}
+		}
 		console.log(lastBall);
 		}
 	if(ballsLeft==0){
 		is_multiball=0;
-		ball[lastBall].restart();
-	}
+		balls[lastBall].ballReset();
 	}		
 }
 

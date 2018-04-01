@@ -68,8 +68,10 @@ function ballClass(){
 			this.savedX[i]=this.ballX;
 			this.savedY[i]=this.ballY;
 		}
-		if(lives==0 || bricksLeft==0)
+		if(lives==0)
 			gameReset();
+		if(bricksLeft==0)
+			nextLevel();
 	}
 
 	this.ballMove=function(){
@@ -103,12 +105,20 @@ function ballClass(){
 					console.log(ballsLeft);
 				}
 			}
-			for(var i=NUM_POS_TO_SAVE-1; i>0; i--){
-				this.savedX[i]=this.savedX[i-1];
-				this.savedY[i]=this.savedY[i-1];		
+			if(!this.isBallHeld){
+				for(var i=NUM_POS_TO_SAVE-1; i>0; i--){
+					this.savedX[i]=this.savedX[i-1];
+					this.savedY[i]=this.savedY[i-1];		
+				}
+				this.savedX[0]=this.ballX;
+				this.savedY[0]=this.ballY;
 			}
-			this.savedX[0]=this.ballX;
-			this.savedY[0]=this.ballY;
+			if(this.isBallHeld){
+				for(var i=0; i<NUM_POS_TO_SAVE; i++){
+					this.savedX[i]=this.ballX;
+					this.savedY[i]=this.ballY;
+				}
+			}
 		}
 	}
 
@@ -245,9 +255,11 @@ function ballClass(){
 			drawBitmapCentered(ballPic,this.ballX, this.ballY);
 		if(is_fireball){
 			drawBitmapCentered(fireBallPic,this.ballX, this.ballY);
-			for(var i=0; i<NUM_POS_TO_SAVE; i++){
-				var op=1.0-(i+3)/10.0;
-				colorCircleTransparent(this.savedX[i],this.savedY[i],8-i,'255,255,255',op);
+			if(!this.isBallHeld){
+				for(var i=0; i<NUM_POS_TO_SAVE; i++){
+					var op=1.0-(i+3)/10.0;
+					colorCircleTransparent(this.savedX[i],this.savedY[i],8-i,'255,255,255',op);
+				}
 			}
 		}
 		if(is_sticky)
