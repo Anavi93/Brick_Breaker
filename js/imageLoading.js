@@ -5,6 +5,7 @@ var fireBallPic=document.createElement("img");
 var stickyBallPic=document.createElement("img");
 var bulletPic=document.createElement("img");
 var backgroundPic=document.createElement("img");
+var winPic=document.createElement("img");
 var healthPic=document.createElement("img");
 var startPic=document.createElement("img");
 var powerFirePic=document.createElement("img");
@@ -52,6 +53,7 @@ function loadImages(){
 		{varName: backgroundPic, theFile: "Background"},
 		{varName: healthPic, theFile: "Heart"},
 		{varName: startPic, theFile: "Start"},
+		{varName: winPic, theFile: "Win"},
 		{varName: powerFirePic, theFile: "Fire"},
 		{varName: powerStickyPic, theFile: "Sticky"},
 		{varName: powerMultiPic, theFile: "Multi"},

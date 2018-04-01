@@ -1,3 +1,7 @@
+const NUM_LEVELS=3;
+
+var level=1;
+
 var is_fireball=0;
 var is_multiball=0;
 var is_sticky=0;
@@ -92,20 +96,25 @@ function drawBullets(){
 }
 
 function gameReset(){
-	showingStartMenu=true;
-	endingScore=score;
-	newLifePoints=10000;
-	lives=3;
-	score=0;
-	brickReset(levelOne);
+	level=1;
+	if(!showingWinScreen){
+		showingStartMenu=true;
+	}
+	nextLevel(level);
 }
 
-function nextLevel(){
+function nextLevel(l){
 	endingScore=score;
 	newLifePoints=10000;
 	lives=3;
 	score=0;
-	brickReset(levelTwo);
+	bullets=[];
+	if(l==1)
+		brickReset(levelOne);
+	if(l==2)
+		brickReset(levelTwo);
+	if(l==3)
+		brickReset(levelSmiley);
 }
 
 function updateMultiball(){

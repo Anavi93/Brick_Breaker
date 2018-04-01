@@ -70,14 +70,25 @@ function ballClass(){
 		}
 		if(lives==0)
 			gameReset();
-		if(bricksLeft==0)
-			nextLevel();
+		if(bricksLeft==0){
+			level++;
+			if(level>NUM_LEVELS){
+				showingWinScreen=true;
+				gameReset();
+			}
+			else
+				nextLevel(level);
+		}
 	}
 
 	this.ballMove=function(){
 		if(this.isBallHeld){
 			this.ballX=paddleX+this.distFromPaddle;
 			this.ballY=canvas.height-PADDLE_DIST_FROM_EDGE-PADDLE_THICKNESS-5;
+			for(var i=0; i<NUM_POS_TO_SAVE; i++){
+				this.savedX[i]=this.ballX;
+				this.savedY[i]=this.ballY;
+			}
 		}
 		else{
 			this.ballX+=this.ballSpeedX;
@@ -112,12 +123,6 @@ function ballClass(){
 				}
 				this.savedX[0]=this.ballX;
 				this.savedY[0]=this.ballY;
-			}
-			if(this.isBallHeld){
-				for(var i=0; i<NUM_POS_TO_SAVE; i++){
-					this.savedX[i]=this.ballX;
-					this.savedY[i]=this.ballY;
-				}
 			}
 		}
 	}
