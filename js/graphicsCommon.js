@@ -19,6 +19,7 @@ function colorCircleTransparent(centerX,centerY,radius,drawColor,opacity){
 
 function colorText(showWords, textX, textY, fillColor){
 	canvasContext.fillStyle=fillColor;
+	canvasContext.font="20px Bahnschrift";
 	canvasContext.fillText(showWords, textX, textY);
 }
 

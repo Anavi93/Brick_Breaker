@@ -18,7 +18,7 @@ var powerups=[];
 
 var ballsLeft=1;
 var lastBall=1;
-var newLifePoints=10000;
+var newLifePoints=20000;
 
 function updatePowerups(){
 	clearPowerups();
@@ -31,6 +31,8 @@ function updatePowerups(){
 		is_sticky--;	
 	if(is_cannon>0){
 		is_cannon--;
+		if(is_cannon==0)
+			bullets=[];
 		clearBullets();
 		moveBullets();
 		drawBullets();
@@ -95,26 +97,49 @@ function drawBullets(){
 	}
 }
 
+function updateBalls(){
+	if(ballsLeft==0)
+		balls[lastBall].ballReset;
+}
+
 function gameReset(){
 	level=1;
 	if(!showingWinScreen){
 		showingStartMenu=true;
 	}
-	nextLevel(level);
 }
 
-function nextLevel(l){
+function levelReset(){
+	if(lives==0)
+		gameReset();
+	else
+		balls[lastBall].ballReset();
+}
+
+function nextLevel(){
+	level++;
 	endingScore=score;
-	newLifePoints=10000;
+	newLifePoints=20000;
 	lives=3;
 	score=0;
 	bullets=[];
-	if(l==1)
-		brickReset(levelOne);
-	if(l==2)
-		brickReset(levelTwo);
-	if(l==3)
-		brickReset(levelSmiley);
+	for(var i=1; i<4; i++)
+		balls[i].isInPlay=false;
+	balls[lastBall].ballReset();
+	if(level>NUM_LEVELS){
+				level=1;
+				showingWinScreen=true;
+				gameReset();
+				brickReset(levelOne);
+			}
+	else{
+		if(level==1)
+			brickReset(levelOne);
+		if(level==2)
+			brickReset(levelTwo);
+		if(level==3)
+			brickReset(levelThree);
+	}
 }
 
 function updateMultiball(){
@@ -160,4 +185,5 @@ function drawBalls(){
 		if(balls[i+1].isInPlay)
 			balls[i+1].drawBall();
 }
+
 		

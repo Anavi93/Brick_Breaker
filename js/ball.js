@@ -68,17 +68,6 @@ function ballClass(){
 			this.savedX[i]=this.ballX;
 			this.savedY[i]=this.ballY;
 		}
-		if(lives==0)
-			gameReset();
-		if(bricksLeft==0){
-			level++;
-			if(level>NUM_LEVELS){
-				showingWinScreen=true;
-				gameReset();
-			}
-			else
-				nextLevel(level);
-		}
 	}
 
 	this.ballMove=function(){
@@ -108,7 +97,7 @@ function ballClass(){
 			if(this.ballY>canvas.height){ //bottom
 				if(!is_multiball){
 				lives--;
-				this.ballReset();
+				levelReset();
 				}
 				else{
 					this.isInPlay=false;
@@ -224,7 +213,7 @@ function ballClass(){
 				score+=(BRICK_ROWS-ballBrickRow)*100;
 							
 				if(bricksLeft==0){
-					this.ballReset();
+					this.nextLevel();
 				}//out of bricks
 				
 				if(score>=newLifePoints){

@@ -21,8 +21,8 @@ function bulletClass(){
 			brickCol=Math.floor(this.x/BRICK_W);
 			brickRow=Math.floor(this.y/BRICK_H);
 			brick=rowColToArrayIndex(brickCol, brickRow);
-			console.log("Udario!");
-			console.log(brick);
+			//console.log("Udario!");
+			//console.log(brick);
 			switch(brickGrid[brick]){
 				case BRICK3:
 					brickGrid[brick]=BRICK3_DAM1;
@@ -49,7 +49,7 @@ function bulletClass(){
 			score+=(BRICK_ROWS-brickRow)*100;
 			this.isAlive=false;
 			if(bricksLeft==0){
-					balls[lastBall].ballReset();
+					nextLevel();
 			}
 		}
 
