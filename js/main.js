@@ -1,4 +1,5 @@
 var canvas, canvasContext;
+var clock=0;
 
 const KEY_1=49;
 const KEY_2=50;
@@ -36,11 +37,11 @@ function keyReleased(evt){
 		is_fireball+=600;
 		console.log("1");
 	}
-	if(evt.keyCode==KEY_4){
-		//cannon
-		is_cannon+=600;
+	if(evt.keyCode==KEY_2){
+		//sticky ball
+		is_sticky+=600;
 		console.log("2");
-	}
+	}	
 	if(evt.keyCode==KEY_3){
 		//multiball
 		if(!is_multiball){
@@ -48,9 +49,9 @@ function keyReleased(evt){
 		}
 		console.log("3");
 	}
-	if(evt.keyCode==KEY_2){
-		//sticky ball
-		is_sticky+=600;
+	if(evt.keyCode==KEY_4){
+		//cannon
+		is_cannon+=600;
 		console.log("4");
 	}
 	if(evt.keyCode==KEY_5){
@@ -99,13 +100,14 @@ function imageLoadingDoneSoStartGame(){
 }
 
 function updateAll(){ 
+	updateBalls();
 	moveAll();
 	drawAll();
 	updatePowerups();
 }
 
 function moveAll(){
-	if(showingStartMenu)
+	if(showingStartMenu || showingWinScreen)
 		return;
 	moveBalls();
 }
@@ -115,24 +117,37 @@ function drawAll(){
 	
 	if(showingStartMenu){
 		drawBitmap(startPic, 0,0);
-		canvasContext.fillStyle='white';
-		canvasContext.fillText('Move paddle with mouse to hit ball and break all bricks',278,250);
-		canvasContext.fillText('Click to start new game',350,445);
+		canvasContext.fillStyle='red';
+		canvasContext.font="15px Consolas";
+		canvasContext.fillText('Move paddle with mouse to hit ball and break all bricks',190,520);
+		canvasContext.fillStyle='purple';
+		canvasContext.fillText('Click to start new game',305,180);
 		if(endingScore>0){
-			canvasContext.fillText('Last score:',375,200);
-			canvasContext.fillText(endingScore,390,220);
+			canvasContext.fillText('Last score:',355,220);
+			canvasContext.fillText(endingScore,380,250);
 		}
+		canvasContext.font="bold 35px Bahnschrift";
+		canvasContext.fillText('BRICK BREAKER',270,80);
 		return;
 	}
 	else if(showingWinScreen){
-		drawBitmap(winPic,0,0);
+		//drawBitmap(winPic,0,0);
+		drawBitmap(animatedPics[clock++],0,0);
+		if(clock==ANIMATED_FRAMES)
+			clock=0;
 		canvasContext.fillStyle='White';
-		canvasContext.fillText('Good job, you have won!',320,250);
+		canvasContext.font="30px Consolas";
+		canvasContext.fillText('Good job, you have won!',80,140);
 		canvasContext.fillText('Click to start new game',350,480);
 		
 	}
 	else{
-	drawBitmap(backgroundPic,0,0);
+		if(level==1)
+			drawBitmap(level1Pic,0,0);
+		if(level==2)
+			drawBitmap(level2Pic,0,0);
+		if(level==3)
+			drawBitmap(level3Pic,0,0);
 	
 	//colorRect(paddleX, canvas.height-PADDLE_DIST_FROM_EDGE, PADDLE_WIDTH, PADDLE_THICKNESS, 'white');
 	if(!is_cannon)
