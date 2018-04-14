@@ -1,4 +1,5 @@
-const ANIMATED_FRAMES=50;
+const ANIMATED_FRAMES_GO=50;
+const ANIMATED_FRAMES_WIN=181;
 
 var playerPic=document.createElement("img");
 var cannonPic=document.createElement("img");
@@ -19,7 +20,8 @@ var powerPointPic=document.createElement("img");
 
 var brickPics=[];
 
-var animatedPics=[];
+var animatedPicsGo=[];
+var animatedPicsWin=[];
 
 
 var picsToLoad=0;
@@ -41,9 +43,15 @@ function beginLoadingImage(imgVar, fileName){
 	
 }
 
-function beginLoadingAnimatedImage(imgVar, fileName){
+function beginLoadingAnimatedImageGo(imgVar, fileName){
 	imgVar.onload=countImagesAndLaunchIfReady();
 	imgVar.src="images/animation2/frame_"+fileName+"_delay-0.04s.png";
+	
+}
+
+function beginLoadingAnimatedImageWin(imgVar, fileName){
+	imgVar.onload=countImagesAndLaunchIfReady();
+	imgVar.src="images/animation/"+fileName+".png";
 	
 }
 
@@ -52,11 +60,19 @@ function loadImageForBrickCode(brickCode, fileName){
 	beginLoadingImage(brickPics[brickCode],fileName);
 }
 
-function loadImagesForAnimation(){
+function loadImagesForAnimationGo(){
 	var i;
-	for(i=0; i<ANIMATED_FRAMES; i++){
-		animatedPics[i]=document.createElement("img");
-		beginLoadingAnimatedImage(animatedPics[i],i);
+	for(i=0; i<ANIMATED_FRAMES_GO; i++){
+		animatedPicsGo[i]=document.createElement("img");
+		beginLoadingAnimatedImageGo(animatedPicsGo[i],i);
+	}
+}
+
+function loadImagesForAnimationWin(){
+	var i;
+	for(i=0; i<ANIMATED_FRAMES_WIN; i++){
+		animatedPicsWin[i]=document.createElement("img");
+		beginLoadingAnimatedImageWin(animatedPicsWin[i],i);
 	}
 }
 
@@ -88,7 +104,7 @@ function loadImages(){
 		{brickType: BRICK3_DAM2, theFile: "Brick2D"},
 		];
 	
-	picsToLoad=imageList.length+ANIMATED_FRAMES;
+	picsToLoad=imageList.length+ANIMATED_FRAMES_GO+ANIMATED_FRAMES_WIN;
 
 	
 	for(var i=0; i<imageList.length; i++){
@@ -100,6 +116,7 @@ function loadImages(){
 		}
 	}
 	
-	loadImagesForAnimation();
+	loadImagesForAnimationGo();
+	loadImagesForAnimationWin();
 }
 

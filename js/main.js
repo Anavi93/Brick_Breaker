@@ -11,6 +11,7 @@ var mouseX=0;
 var mouseY=0;
 
 var showingStartMenu=true;
+var showingGameOver=false;
 var showingWinScreen=false;
 
 var endingScore=0;
@@ -21,7 +22,13 @@ function mouseupHandler(evt){
 		return;
 	}
 	if(showingWinScreen){
+		clock=0;
 		showingWinScreen=false;
+		return;
+	}
+	if(showingGameOver){
+		clock=0;
+		showingGameOver=false;
 		return;
 	}
 	if(is_cannon)
@@ -39,7 +46,7 @@ function keyReleased(evt){
 	}
 	if(evt.keyCode==KEY_2){
 		//sticky ball
-		is_sticky+=600;
+		is_sticky=1;
 		console.log("2");
 	}	
 	if(evt.keyCode==KEY_3){
@@ -130,15 +137,29 @@ function drawAll(){
 		canvasContext.fillText('BRICK BREAKER',270,80);
 		return;
 	}
+	else if(showingGameOver){
+		drawBitmap(animatedPicsGo[clock++],0,0);
+		if(clock==ANIMATED_FRAMES_GO)
+			clock=0;
+		canvasContext.fillStyle='White';
+		canvasContext.font="15px Consolas";
+		canvasContext.fillText('Click to start new game',300,50);
+		canvasContext.font="bold 35px Consolas";
+		canvasContext.fillText('GAME OVER',50,50);	
+		if(endingScore>0){
+			canvasContext.fillText('Last score:',560,50);
+			canvasContext.fillText(endingScore,630,90);
+		}
+	}
 	else if(showingWinScreen){
 		//drawBitmap(winPic,0,0);
-		drawBitmap(animatedPics[clock++],0,0);
-		if(clock==ANIMATED_FRAMES)
+		drawBitmap(animatedPicsWin[clock++],0,0);
+		if(clock==ANIMATED_FRAMES_WIN)
 			clock=0;
 		canvasContext.fillStyle='White';
 		canvasContext.font="30px Consolas";
 		canvasContext.fillText('Good job, you have won!',80,140);
-		canvasContext.fillText('Click to start new game',350,480);
+		canvasContext.fillText('Click to start new game',350,80);
 		
 	}
 	else{

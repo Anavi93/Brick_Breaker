@@ -143,8 +143,8 @@ function ballClass(){
 					this.timesSpeedIncrease++;
 					this.hitsSpeedIncrease+=5*this.timesSpeedIncrease;
 					this.increaseSpeed(0.20);
-					console.log(this.ballSpeedX);
-					console.log(this.ballSpeedY);
+					//console.log(this.ballSpeedX);
+					//console.log(this.ballSpeedY);
 				}//increasing speed
 			}//ball center inside paddle
 	}//end of ballPaddleHandling
@@ -213,7 +213,7 @@ function ballClass(){
 				score+=(BRICK_ROWS-ballBrickRow)*100;
 							
 				if(bricksLeft==0){
-					this.nextLevel();
+					nextLevel();
 				}//out of bricks
 				
 				if(score>=newLifePoints){

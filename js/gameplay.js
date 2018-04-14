@@ -26,9 +26,7 @@ function updatePowerups(){
 	if(is_fireball>0)
 		is_fireball--;
 	if(is_multiball>0)
-		updateMultiball();	
-	if(is_sticky>0)
-		is_sticky--;	
+		updateMultiball();		
 	if(is_cannon>0){
 		is_cannon--;
 		if(is_cannon==0)
@@ -59,6 +57,16 @@ function movePowerups(){
 	for(var i=0; i<powerups.length; i++)
 		if(powerups[i].isAlive)
 			powerups[i].move();
+}
+
+function resetPowerups(){
+	is_fireball=0;
+	is_multiball=0;
+	is_sticky=0;
+	is_cannon=0;
+	is_points=0;
+	powerups=[];
+	
 }
 
 function createBalls(){
@@ -104,16 +112,26 @@ function updateBalls(){
 
 function gameReset(){
 	level=1;
-	if(!showingWinScreen){
-		showingStartMenu=true;
-	}
+	endingScore=score;
+	newLifePoints=20000;
+	lives=3;
+	score=0;
+	bullets=[];
+	brickReset(levelOne);
+	resetPowerups();
+	for(var i=1; i<4; i++)
+		balls[i].isInPlay=false;
+	balls[lastBall].ballReset();
+	showingGameOver=true;
 }
 
 function levelReset(){
 	if(lives==0)
 		gameReset();
-	else
+	else{
+		resetPowerups();
 		balls[lastBall].ballReset();
+	}
 }
 
 function nextLevel(){
@@ -123,13 +141,13 @@ function nextLevel(){
 	lives=3;
 	score=0;
 	bullets=[];
+	resetPowerups();
 	for(var i=1; i<4; i++)
 		balls[i].isInPlay=false;
 	balls[lastBall].ballReset();
 	if(level>NUM_LEVELS){
 				level=1;
 				showingWinScreen=true;
-				gameReset();
 				brickReset(levelOne);
 			}
 	else{
